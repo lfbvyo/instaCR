@@ -1,0 +1,23 @@
+{
+  "name": "InstaCR",
+  "version": "0.0.0",
+  "description": "Red social de imágenes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lfbvyo/instaCR.git"
+  },
+  "author": "Felipe",
+  "license": "GNU",
+  "bugs": {
+    "url": "https://github.com/lfbvyo/instaCR/issues"
+  },
+  "dependencies": {
+    "express": "~4.13.3",
+    "mongodb": "~2.1.0",
+    "body-parser": "~1.14.1"
+  }
+}
