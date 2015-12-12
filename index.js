@@ -86,6 +86,11 @@ app.get('/:page_num', function(req, res){
   });
 });
 
+// Obtiene los posts
+app.get('/', function(req, res){
+  res.end("Hola Mundo! Para ver la primera página del API vaya a ip/0");
+});
+
 
 var port = 3000;
 app.listen(port);
