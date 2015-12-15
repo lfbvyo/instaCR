@@ -36,6 +36,19 @@ app.post('/post/new', function(req, res){
 	res.end('Ok');
 });
 
+// Guarda un nuevo profile en la base de datos 
+app.post('/profile/new', function(req, res){
+	var profile = req.body;
+	profile.creado = new Date();
+	MongoClient.connect(url, function(err, db) {
+	    if (err) {
+		res.end('500: Internal Server Error :p', 500);
+	    }
+	    db.collection('profile').insert(profile);
+	});
+	res.end('Ok');
+});
+
 // agrega un comentario a un post
 app.post('/comment/new/:post_id', function(req, res){
   var comment = req.body;
@@ -75,6 +88,26 @@ app.post('/like/new/:post_id', function(req, res){
   });
   res.end('Ok');
 });
+// agrega un like a un post
+app.post('/profile/edit/:usuario', function(req, res){
+    var profile = req.body;
+    profile.modificado = new Date();
+  MongoClient.connect(url, function(err, db) {
+      if (err) {
+          res.end('500: Internal Server Error :p', 500);
+      }
+      db.collection('profile').update(
+        {'usuario':req.params.usuario}, 
+        profile, 
+        function(err){
+          if (err) {
+              res.end('500: Internal Server Error :p', 500);
+          }
+
+         });
+  });
+  res.end('Ok');
+});
 
 // Obtiene los posts
 app.get('/:page_num', function(req, res){
@@ -85,6 +118,22 @@ app.get('/:page_num', function(req, res){
     db.collection('posts').find(
 	{},
 	{ limit:globalLimit, skip:globalLimit*req.params.page_num}
+	).toArray(function(err, docs) {
+        res.jsonp(docs); 
+        db.close();
+      });
+  });
+});
+
+// Obtiene los posts
+app.get('/profile/:usuario', function(req, res){
+  MongoClient.connect(url, function(err, db) {
+    if (err) {
+      res.end('500: Internal Server Error :p', 500);
+    }
+    db.collection('profile').find(
+	{usuario:req.params.usuario},
+	{ }
 	).toArray(function(err, docs) {
         res.jsonp(docs); 
         db.close();
